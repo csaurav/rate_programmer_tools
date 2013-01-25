@@ -6,3 +6,5 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 Tool.create(name: "NHibernate")
+Tool.create(name: "NHibernate1")
+Tool.create(name: "NHibernate2")

@@ -1,0 +1,11 @@
+ <% if result_model %>
+    <% if result_model.has_errors %>
+      <% result_model.errors.each do |error| %>
+        <%= error %>
+      <% end %>
+    <% else %>
+        <% result_model.model.each do |tool| %>
+            <%= tool.name %><br>
+        <% end %>
+    <% end %>
+  <% end %>
