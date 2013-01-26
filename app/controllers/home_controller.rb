@@ -9,6 +9,9 @@ class HomeController < ApplicationController
     else
       @result_model.add_error "No tool was found matching that name"
     end
-    render :index
+    respond_to  do |format|
+      format.js { render :tool_result_set }
+      format.html { render :index }
+    end
   end
 end

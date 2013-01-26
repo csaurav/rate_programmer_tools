@@ -1,5 +1,5 @@
 <div id="search-panel">
-<%= form_tag action: "search" do %>
+<%= form_tag({action: "search"}, {remote: true}) do %>
   <input id="search_field" name="search_field" type="text"/>
   <button type="submit" class="btn">Search</button>
 <% end %>
@@ -10,15 +10,7 @@
   </div>
   <div id="search-results">
   <% if @result_model %>
-    <% if @result_model.has_errors %>
-      <% @result_model.errors.each do |error| %>
-        <%= error %>
-      <% end %>
-    <% else %>
-        <% @result_model.model.each do |tool| %>
-            <%= tool.name %>
-        <% end %>
-    <% end %>
+    <% render partial: 'tool_result_set', locals: {result_model: @result_model} %>
   <% end %>
   </div>
 </div>
