@@ -17,14 +17,14 @@ describe 'User' do
 	end
 
 	it 'has a valid username' do
-		email =  (Faker::Base.regexify  'valid_email@gmail.com')
+		email =  'valid_email@gmail.com'
 		password = 'some_password'
 		user = User.create email: email, password: password
 
 		user.update_attributes username: (Faker::Base.regexify /^[a-z0-9_-]{5,15}$/)
 		user.should be_valid
 
-		#valid symbol only underscore
+		#valid symbols = only underscore
 		user.update_attributes username: '$@!====invalid_username'
 		user.should_not be_valid
 
@@ -42,6 +42,23 @@ describe 'User' do
 	end
 
 	it 'has a valid password' do
-		
+		username = Faker::Name.first_name + '_' +Faker::Name.last_name
+		email = 'valid_email@gmail.com'
+		user = User.create username: username, email: email
+
+		user.update_attributes password: nil
+		user.should_not be_valid
+
+	#	user.update_attributes password: (Faker::Base.regexify %r-[\d\w!@#$%^&*()+-='[\]>?"{}]{5,20}-)
+		#user.should be_valid
+
+		user.update_attributes password: '!@#$%^&*()_+-=;\'{}[]:"<>,.?/'
+		user.should be_valid
+
+		user.update_attributes password: 'aValidPassword1234567890'
+		user.should be_valid
+
+		user.update_attributes password: '\\password'
+		user.should_not be_valid
 	end
 end
