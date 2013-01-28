@@ -1,3 +1,3 @@
 
-$('#search-results').hide().html('<%= escape_javascript(render(partial: "tool_result_set", locals: {result_model: @result_model})) %>'); 
-$('#search-results').fadeIn('slow');	
+$('#search-results').hide().html('<%= escape_javascript(render(partial: "tool_result_set", locals: {tools: @tools})) %>');
+$('#search-results').fadeIn('slow');
