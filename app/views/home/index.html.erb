@@ -1,7 +1,7 @@
 <div id="search-panel">
 <%= form_tag({action: "search"}, {remote: true}) do %>
-  <input id="search_field" name="search_field" type="text"/>
-  <button type="submit" class="btn">Search</button>
+  <input id="search_field" placeholder="Enter Search Phrase" name="search_field" type="text"/>
+  <button id="search_button" type="submit" class="btn">Search</button>
 <% end %>
 </div>
 <div id="search-results-panel">
