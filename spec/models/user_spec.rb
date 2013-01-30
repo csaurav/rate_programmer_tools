@@ -4,7 +4,7 @@ describe 'User' do
 	it 'has a valid email' do
 		username = 'fake_username'
 		password = 'some_password'
-		user = User.new username: username, password: password, email: 'valid_email@gmail.com',
+		user = User.new username: username, password: password, email: 'a_valid_email@gmail.com',
 										password_confirmation: password
 		user.save!
 
@@ -28,14 +28,14 @@ describe 'User' do
 	it 'has a valid username' do
 		email =  'valid_email@gmail.com'
 		password = 'some_password'
-		user = User.new username: 'valid_username', email: email, password: password,password_confirmation: password
+		user = User.new username: 'Valid_Username', email: email, password: password,password_confirmation: password
 		user.save!
 
 		user.username =  (Faker::Base.regexify /^[a-z0-9_-]{5,15}$/)
 		user.should be_valid
 
 		#valid symbols = only underscore
-		user.username =  '$@!====invalid_username'
+		user.username =  '$@!====Invalid_Username'
 		user.should_not be_valid
 
 		#at least 5 characters
@@ -51,8 +51,9 @@ describe 'User' do
 		user.should_not be_valid
 
 		#username must be unique
-		user.username =  'duplicateUsername'
-		duplicate = User.new email: email, password: password, username: 'DupLiCateUsername',password_confirmation: password
+		user.username =  'dupUserName'
+		user.save!
+		duplicate = User.new email: email, password: password, username: 'DuPUseRrName',password_confirmation: password
 		duplicate.should_not be_valid
 	end
 
@@ -91,4 +92,5 @@ describe 'User' do
 		user.should_not be_valid
 
 	end
+	it 'needs first name and last names tests. if any.'
 end

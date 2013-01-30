@@ -1,27 +1,19 @@
 class User < ActiveRecord::Base 
 	has_secure_password
 	attr_accessible :username, :email, :password,:password_confirmation
+	attr_accessible :first_name, :last_name,:role, :auth_token
+	validates_presence_of :username, :email, :password, :password_confirmation
+	validates_uniqueness_of :email, :username, case_sensitive: false
+
+	validates_format_of :username, with: /^[A-Za-z0-9_-]{5,15}$/
+	validates_format_of :email, with: /^[A-Z_a-z0-9-]+(\.[A-Z_a-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$/
+
+	validates :password, format: {with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]{5,32}/}
 	
-	validates :username, presence: true, 
-											 format: {with: /^[a-z0-9_-]{5,15}$/},
-											 uniqueness: true
-	validates :password, presence: true,
-											 format: {with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]{5,32}/},
-											 confirmation: true
-	validates :password_confirmation, presence: true 
+	validates_format_of :first_name, :last_name, with: /[A-Za-z]{0,32}/
 
-	validates :email,  presence: true,
-									 	 format: {with: /^[A-Z_a-z0-9-]+(\.[A-Z_a-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$/},
-									 	 uniqueness: true
+def to_param
+	username if username.present?
+end
 
-
-	before_validation do
-		self.email.downcase! if self.email
-		self.username.downcase! if self.username
-	end
-
-
-	before_save do
-		self.email.downcase! if self.email
-	end
 end

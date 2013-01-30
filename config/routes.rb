@@ -1,6 +1,13 @@
 RateProgrammerTools::Application.routes.draw do
   root :to => 'home#index'
   match 'home/search' => 'home#search'
+  
+  resources :users, only: [:new,:create,:show] do 
+  end
+  match '/signup' => 'users#new'
+
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
