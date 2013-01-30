@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base 
 	has_secure_password
-	attr_accessible :username, :email, :password,:password_confirmation
-	attr_accessible :first_name, :last_name,:role, :auth_token
+	attr_accessible :username, :email, :password,:password_confirmation, :first_name, :last_name, :role, :auth_token
 	validates_presence_of :username, :email, :password, :password_confirmation
 	validates_uniqueness_of :email, :username, case_sensitive: false
 
@@ -16,4 +15,8 @@ def to_param
 	username if username.present?
 end
 
+def confirmed?
+	debugger
+	self.confirmed
+end
 end
