@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     if @user.valid?
       @user.update_attributes role: Roles[:member], auth_token: SecureRandom.hex(20) 
       ActivationMailer.activation_email(@user)
+      flash[:notice] = 'Registeration was successful.'
       redirect_to controller: 'home', action: 'search'
     else
       render :new

@@ -29,6 +29,7 @@ RSpec.configure do |config|
   # https://github.com/jnicklas/capybara#transactions-and-database-setup
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
+
   end
   config.before(:each) do
     DatabaseCleaner.start

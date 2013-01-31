@@ -11,16 +11,34 @@
  *= require_self
  *= require_tree .
  */
-#content-top{height:50px; margin:0px;padding:0px;}
-#content-bottom{float:none; margin:0px;padding:0px;}
-.clear_float{clear:both;}
-.auth_links{float:right;padding:15px 10px;}
-#content-top {
-    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    height: 50px;
-    padding: 0 18px;
-    z-index: 1000;
-    border-bottom: 1px solid #c8c8c9;
-}
+ #content-top{height:50px; margin:0px;padding:0px;}
+ #content-bottom{float:none; margin:0px;padding:0px;}
+ .clear_float{clear:both;}
+ .auth_links{float:right;padding:15px 10px;}
+ #content-top {
+ 	-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+ 	-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+ 	box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+ 	height: 50px;
+ 	padding: 0 18px;
+ 	z-index: 1000;
+ 	border-bottom: 1px solid #c8c8c9;
+ }
+ .flash{;
+ 	width: 100%;	
+ 	vertical-align: middle;
+ 	display: none;
+ 	height: 2em;
+ 	font-size: 15px;
+ 	text-align: center;
+/* 	-webkit-transition: all;
+ 	-moz-transition: all;
+ 	transition: all;
+ 	-o-transition: all;*/
+ }
+ /* MAY BE A BETTER IDEA TO USE AN IMAGE W/TRANSPARENT BG FOR THE CLOSE BUTTON! */
+ .flash button { float: right; border-radius: 100%; border: none; }
+ #flash_notice { float: center; background-color: #FFDE00; color: #097054;}
+ #flash_error button{ background-color: #260311; color: #910D2E; }
+ #flash_notice button{ background-color: #BDA609; color: #FFDE00; }
+ #flash_error { background-color: #910D2E; color: white; }
