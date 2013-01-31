@@ -16,26 +16,14 @@
     <div class="clear_float"></div>
   </div>
   <div id="content-bottom">
-    <% [:error,:notice,:warning].each do |flash_type| %> 
+  <% [:error,:notice,:warning].each do |flash_type| %> 
     <% if flash[flash_type] %>
-
       <div class='flash' id='flash_<%=flash_type %>'><%= flash[flash_type]%><button onclick="javascript:close_notification('#flash_<%=flash_type %>')">X</button><br></div>
     <% end %>
-    <% end %> 
+  <% end %> 
     <%= yield %>
   </div>
 
-<div id="content-top">
-  <a href="/">
-    <img src="/images/logo_home.png"/>
-  </a>
-  <a class="auth_links" href="#">Sign Up</a>
-  <a class="auth_links" href="#">Log In</a>
-  <div class="clear_float"></div>
-</div>
-<div id="content-bottom">
-  <%= yield %>
-</div>
 
 <div class="footer">
   <hr>
