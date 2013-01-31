@@ -11,6 +11,7 @@
  *= require_self
  *= require_tree .
  */
+<<<<<<< HEAD
  #content-top{height:50px; margin:0px;padding:0px;}
  #content-bottom{float:none; margin:0px;padding:0px;}
  .clear_float{clear:both;}
@@ -42,3 +43,22 @@
  #flash_error button{ background-color: #260311; color: #910D2E; }
  #flash_notice button{ background-color: #BDA609; color: #FFDE00; }
  #flash_error { background-color: #910D2E; color: white; }
+=======
+#content-top{height:50px; margin:0px;padding:0px;}
+#content-bottom{float:none; margin:0px;padding:0px;}
+.clear_float{clear:both;}
+.auth_links{float:right;padding:15px 10px;}
+#content-top {
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    height: 50px;
+    padding: 0 18px;
+    z-index: 1000;
+    border-bottom: 1px solid #c8c8c9;
+}
+hr{margin: 5px;}
+form{margin:0px;padding:0px;}
+.footer{margin:20px auto;text-align: center;width:800px;}
+.footer p{font-size:12px;color: #929292;}
+>>>>>>> 70254ec30fcd6ba2de818be73151d7a10ed35da9

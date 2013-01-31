@@ -3,6 +3,9 @@ RateProgrammerTools::Application.routes.draw do
   match 'home/search' => 'home#search'
   
   resources :users, only: [:new,:create,:show] do 
+    collection do
+      get 'activate/:auth_token' => 'users#activate', as: :activate      
+    end
   end
   match '/signup' => 'users#new'
 

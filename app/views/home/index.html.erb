@@ -1,13 +1,35 @@
-<div id="search-panel">
-<%= form_tag({action: "search"}, {remote: true}) do %>
-  <input id="search_field" placeholder="Enter Search Phrase" name="search_field" type="text"/>
-  <button id="search_button" type="submit" class="btn">Search</button>
-<% end %>
-</div>
-<div id="search-results-panel">
-  <div id="search-results-menu">
-
+<div id="search-page">
+  <div id="search-panel">
+    <%= form_tag({action: "search"}, {remote: true}) do %>
+        <input id="search_field" placeholder="Enter Search Phrase" name="search_field" type="text"/>
+        <button id="search_button" type="submit" class="btn">Search</button>
+    <% end %>
   </div>
+  <div id="search-panel-results">
+    <div id="search-panel-results-left">
+      <div id="search-result-pager" class="pagination pagination-small">
+        <ul>
+          <li><a href="#">«</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">»</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="search-panel-results-right">
+      <span>Ratings:</span>
+      <a href="#profile" data-toggle="tab">Recent</a>
+      <a href="#profile" data-toggle="tab">Lowest</a>
+      <a href="#profile" data-toggle="tab">Highest</a>
+      <span>|</span>
+      <a href="#profile" data-toggle="tab">History</a>
+    </div>
+    <div class="clear_float"></div>
+  </div>
+  <hr/>
   <div id="search-results">
   </div>
 </div>
+

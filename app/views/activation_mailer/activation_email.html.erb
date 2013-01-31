@@ -1,5 +1,16 @@
 <html>
-<body>
-
+<body style='background-color:#470D5E; color: white;'>
+	<%= image_tag('logo_home') %>
+	<h1  style='color: silver; text-align:center;'>So you want to rate some tools?</h1><br />
+	Hey <span style='color: orange;'>  <%= @user.username %></span>,<br />
+	<div style='text-align: center'>
+		<p>
+			<% debugger %>
+			Thanks for signing up! We won't bore you with a long email.<br />
+			<%= link_to 'Click here to activate your account', activate_users_url(auth_token: @user.auth_token)  %> or if you can't, paste the following into your browser.
+			<%= activate_users_url(auth_token: @user.auth_token) %>
+		</p>
+	</div>
+	<span style='color: orange'>The Tool Rating Team</span>
 </body>
 </html>

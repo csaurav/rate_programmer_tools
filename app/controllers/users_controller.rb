@@ -13,13 +13,24 @@ class UsersController < ApplicationController
   #POST /users/
   def create
     @user = User.new params[:user]
-    if @user.valid?
-      @user.update_attributes role: Roles[:member], auth_token: SecureRandom.hex(20) 
-      ActivationMailer.activation_email(@user)
+    if @user.save
+      debugger
+      ActivationMailer.activation_email(@user).deliver
       flash[:notice] = 'Registeration was successful.'
       redirect_to controller: 'home', action: 'search'
     else
       render :new
+    end
+  end
+
+
+  def activate
+    @user = User.find_by_auth_token(params[:id])
+    if @user
+      @user.update_attributes confirmed: true
+      render @user
+    else
+      redirect_to controller: 'home', action: 'search'
     end
   end
 

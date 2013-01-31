@@ -16,3 +16,7 @@
 
 # Rubymine
 .idea/
+
+#ActionMailer SMTP Settings 
+/config/environment.rb
+/config/initializers/smtp_settings.rb
