@@ -38,6 +38,6 @@ RateProgrammerTools::Application.configure do
 
 
   #FOR MAIL SETUP
-  config.action_mailer.default_url_options = { :host => 'http://0.0.0.0:3000/' }
+  config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
 
 end

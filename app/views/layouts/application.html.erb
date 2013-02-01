@@ -12,13 +12,13 @@
       <img src="/images/logo_home.png"/>
     </a>
     <a class="auth_links" href="<%= signup_path %>">Sign Up</a>
-    <a class="auth_links" href="">Log In</a>
+    <a class="auth_links" href="<%= login_path %>">Log In</a>
     <div class="clear_float"></div>
   </div>
   <div id="content-bottom">
   <% [:error,:notice,:warning].each do |flash_type| %> 
     <% if flash[flash_type] %>
-      <div class='flash' id='flash_<%=flash_type %>'><%= flash[flash_type]%><button onclick="javascript:close_notification('#flash_<%=flash_type %>')">X</button><br></div>
+      <div class='flash' id='flash_<%=flash_type %>'><div><%= flash[flash_type].html_safe %></div><button onclick="javascript:close_notification('#flash_<%=flash_type %>')">&#10006;</button></div>
     <% end %>
   <% end %> 
     <%= yield %>

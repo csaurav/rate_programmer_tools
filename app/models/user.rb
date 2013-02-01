@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base 
 	ROLES  = { member: 'MEMBER', pending: 'PENDING',  admin: 'ADMIN' }
 	has_secure_password
-	attr_accessible :username, :email, :password,:password_confirmation, :first_name, :last_name, :role, :auth_token
+	attr_accessible :username, :email, :password,:password_confirmation, :first_name, :last_name, :role, :auth_token, :confirmed
 	validates_presence_of :username, :email
 	validates_presence_of :password, :password_confirmation, :on => :create 
 	validates_uniqueness_of :email, :username, case_sensitive: false

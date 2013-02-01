@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     if @user.save
-      debugger
       ActivationMailer.activation_email(@user).deliver
       flash[:notice] = 'Registeration was successful.'
       redirect_to controller: 'home', action: 'search'
@@ -23,15 +22,19 @@ class UsersController < ApplicationController
     end
   end
 
-
+  #GET /users/activate/:auth_token
   def activate
-    @user = User.find_by_auth_token(params[:id])
+    @user = User.find_by_auth_token(params[:auth_token])
     if @user
-      @user.update_attributes confirmed: true
-      render @user
+      @user.update_attributes confirmed: true, auth_token: nil
+      flash[:notice] = "Your account has been successfully activated"
     else
-      redirect_to controller: 'home', action: 'search'
+      flash[:error] = "Sorry! We couldn't find you in our database!<br /> 
+                       Maybe this account was already activated?<br /> 
+                       If the problem persists please contact an administrator"
+      redirect_to controller: 'home', action: 'search' and return
     end
+      render :profile  #RENDER LOGIN PAGE --------------------- FIX WHEN LOGIN MADE
   end
 
   #GET /users/:id
