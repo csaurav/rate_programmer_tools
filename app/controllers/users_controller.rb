@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     if @user.save
-      ActivationMailer.activation_email(@user).deliver
       flash[:notice] = 'Registeration was successful.'
       redirect_to controller: 'home', action: 'search'
     else
@@ -30,34 +29,31 @@ class UsersController < ApplicationController
       flash[:notice] = "Your account has been successfully activated"
     else
       flash[:error] = "Sorry! We couldn't find you in our database!<br /> 
-                       Maybe this account was already activated?<br /> 
-                       If the problem persists please contact an administrator"
+      Maybe this account was already activated?<br /> 
+      If the problem persists please contact an administrator"
       redirect_to controller: 'home', action: 'search' and return
     end
-      render :profile  #RENDER LOGIN PAGE --------------------- FIX WHEN LOGIN MADE
+      redirect_to login_path  #RENDER LOGIN PAGE --------------------- FIX WHEN LOGIN MADE
   end
 
   #GET /users/:id
   def show
-    @user = User.find_by_username params[:id]
+    @user = User.find_by_username params[:username]
     render :profile
   end
 
   # GET /users/:id/edit
   # Only a form to update profile
-  def edit
-    # return an HTML form for editing a specific message
+  def edit 
   end
 
   # PUT /users/:id/
   def update
-    # find and update a specific message
   end
 
   # DELETE /users/:id
   def destroy
-    # delete a specific message
   end
 
-  #GET /users/activate
+
 end

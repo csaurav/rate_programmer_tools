@@ -13,6 +13,7 @@ RateProgrammerTools::Application.routes.draw do
   #Login, Signup routes
   get  '/login'  => 'login#new'
   post '/login'  => 'login#create'
+  match '/logout' => 'login#destroy'
   match '/signup' => 'users#new'
 
 

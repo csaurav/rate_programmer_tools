@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
 	before_create :add_auth_token
 
 	def add_auth_token 
-  	self.assign_attributes role: ROLES[:pending], auth_token: SecureRandom.hex(20) 
+		self.assign_attributes role: ROLES[:pending], auth_token: SecureRandom.hex(20) 
+		ActivationMailer.activation_email(self).deliver
 	end
 
 	def to_param
@@ -25,5 +26,14 @@ class User < ActiveRecord::Base
 
 	def confirmed?
 		self.confirmed
+	end
+
+	def self.authenticate(options = {})
+		#need to maybe add ability to use username or email.
+		user = User.find_by_username(options[:username])
+		if user && user.try(:authenticate,options[:password])
+			return user
+		end
+		return nil
 	end
 end
