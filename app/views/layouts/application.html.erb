@@ -7,25 +7,20 @@
   <%= yield :head %>
 </head>
 <body>
-  <div id="content-top">
-    <a href="/">
-      <img src="/images/logo_home.png"/>
-    </a>
-     <%= text,link = 'Log Out', logout_path if @current_user;
-     link_to(text || 'Sign Up',link || signup_path, {class: 'auth_links'})%> 
-     <%= text,link = @current_user.username, show_users_path(@current_user) if @current_user;
-     link_to(text || 'Log In',link || login_path, {class: 'auth_links'})%> 
-    <div class="clear_float"></div>
-  </div>
-  <div id="content-bottom">
-  <% [:error,:notice,:warning].each do |flash_type| %> 
-    <% if flash[flash_type] %>
-      <div class='flash' id='flash_<%=flash_type %>'><div><%= flash[flash_type].html_safe %></div><button onclick="javascript:close_notification('#flash_<%=flash_type %>')">&#10006;</button></div>
-    <% end %>
-  <% end %> 
-    <%= yield %>
-  </div>
-
+<div id="content-top">
+  <a href="/">
+    <img src="/images/logo_home.png"/>
+  </a>
+  <%= text,link = 'Log Out', logout_path if @current_user;
+  link_to(text || 'Sign Up',link || signup_path, {class: 'auth_links'})%>
+  <%= text,link = @current_user.username, show_users_path(@current_user) if @current_user;
+  link_to(text || 'Log In',link || login_path, {class: 'auth_links'})%>
+  <div class="clear_float"></div>
+</div>
+<div id="content-bottom">
+  <%= render partial: "shared/flash_messages", flash: flash %>
+  <%= yield %>
+</div>
 
 <div class="footer">
   <hr>
