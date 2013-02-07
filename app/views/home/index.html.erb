@@ -1,22 +1,18 @@
 <div id="search-page">
   <div id="search-panel">
-    <%= form_tag({action: "search"}, {remote: true}) do %>
-        <input id="search_field" placeholder="Enter Search Phrase" name="search_field" type="text"/>
+    <%= form_tag({action: "search"}) do %>
+        <%= text_field_tag :search_field, params[:search_field], id: 'search_field', placeholder:'Enter Search Phrase'  %>
         <button id="search_button" type="submit" class="btn">Search</button>
     <% end %>
   </div>
+
   <div id="search-panel-results">
     <div id="search-panel-results-left">
-      <div id="search-result-pager" class="pagination pagination-small">
-        <ul>
-          <li><a href="#">«</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">»</a></li>
-        </ul>
-      </div>
+      <%= will_paginate @tools, id: 'search-result-pager',
+                        class: 'pagination pagination-small',
+                        previous_label: h("«"),
+                        next_label: h("»"),
+                        renderer: BootstrapPagination::Rails %>
     </div>
     <div id="search-panel-results-right">
       <span>Ratings:</span>
@@ -30,6 +26,7 @@
   </div>
   <hr/>
   <div id="search-results">
+    <%= render(partial: "tool_result_set", locals: {tools: @tools})  %>
   </div>
 </div>
 

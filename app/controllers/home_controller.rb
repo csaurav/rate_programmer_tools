@@ -1,10 +1,19 @@
-	class HomeController < ApplicationController
+class HomeController < ApplicationController
+
+  def index
+    @tools = Tool
+      .order("name")
+      .page(params[:page])
+      .per_page(15)
+  end
 
   def search
-    @tools = Tool.where('name LIKE ?', "%#{params[:search_field]}%").all
-    respond_to  do |format|
-    	format.html {render :index }  #need it for redirecting users to search page.
-      format.js { render :tool_result_set }
-    end
+    @tools = Tool
+      .where('name LIKE ?', "%#{params[:search_field]}%")
+      .order("name")
+      .page(params[:page])
+      .per_page(15)
+
+    render :index
   end
 end

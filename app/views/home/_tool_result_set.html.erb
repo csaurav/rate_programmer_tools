@@ -1,7 +1,10 @@
 <% if @tools.count == 0 %>
     No tool was found matching that name
 <% else %>
-    <% @tools.each do |tool| %>
-        <%= tool.name %><br>
+    <% @tools.each_with_index do |tool, index| %>
+        <div class="tool_search_result">
+          <a href="#"><h3><%= tool.name %></h3></a>
+          <hr>
+        </div>
     <% end %>
 <% end %>
