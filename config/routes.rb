@@ -5,7 +5,9 @@ RateProgrammerTools::Application.routes.draw do
   resources :users, only: [:new,:create] do 
     collection do
       get ':username' => 'users#show', as: :show
-      get 'activate/:auth_token' => 'users#activate', as: :activate      
+      get 'activate/:auth_token' => 'users#activate', as: :activate
+      get 'edit'
+      put 'update'      
     end
   end
 

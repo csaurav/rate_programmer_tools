@@ -1,9 +1,5 @@
 class UsersController < ApplicationController
-  #GET /users
-  #User directory Maybe?
-  # def index
-  # end
-
+ 
   #GET /users/new
   #Sign up form
   def new
@@ -14,7 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     if @user.save
-      flash[:notice] = 'Registeration was successful.'
+      flash[:success] = 'Registeration was successful.'
       redirect_to controller: 'home', action: 'search'
     else
       render :new
@@ -33,10 +29,10 @@ class UsersController < ApplicationController
       If the problem persists please contact an administrator"
       redirect_to controller: 'home', action: 'search' and return
     end
-      redirect_to login_path  #RENDER LOGIN PAGE --------------------- FIX WHEN LOGIN MADE
+      redirect_to login_path  
   end
 
-  #GET /users/:id
+  #GET /users/:username
   def show
     @user = User.find_by_username params[:username]
     render :profile
@@ -49,10 +45,6 @@ class UsersController < ApplicationController
 
   # PUT /users/:id/
   def update
-  end
-
-  # DELETE /users/:id
-  def destroy
   end
 
 

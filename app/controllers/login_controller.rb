@@ -9,7 +9,11 @@ class LoginController < ApplicationController
 	def create
 		@user = User.authenticate(params[:user])
 		if @user
-			session[:current_user_id] = @user.id
+			if params[:remember_me]  # -- Susceptible to cookie jacking?
+				cookies.permanent[:remember_token] = @user.remember_token
+			else
+				cookies[:remember_token] = @user.remember_token
+			end
 			@current_user =  @user
 			render template: 'users/profile'
 		else 
@@ -18,8 +22,8 @@ class LoginController < ApplicationController
 	end
 	def destroy
 		if @current_user
-			session[:current_user_id] = nil
-			flash[:notice] = "You have been successfully logged out"
+			cookies.delete(:remember_token)
+			flash[:success] = "You have been successfully logged out"
 		end
 		redirect_to root_path
 	end

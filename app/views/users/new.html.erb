@@ -1,37 +1,15 @@
-  <%= form_for(@user) do |f| %>
-    <% if @user.errors.any? %>
-      <div id="Oops something went wrong. Here's what: ">
-        <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %> 
-        </ul>
-      </div>
-    <% end %>
-    <div id='email'>
-    	<%= f.label :email %><br />
-    	<%= f.email_field :email %>
-    </div>
-      <div id='name'>
-    	<%= f.label 'First Name' %>
-    	<%= f.text_field :first_name %>
-      <%= f.label 'Last Name' %>
-    	<%= f.text_field :last_name %>
-    </div>
-    <div id='username'>
-      <%= f.label :username %><br />
-      <%= f.text_field :username%>
-    </div>
-    <div id='password'>
-      <%= f.label :password %><br />
-      <%= f.password_field :password, :row => 1 %>
-    </div>
-    <div id='password_confirmation'>
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation %>
-    </div>
-    <div id='tos'>
-      By clicking register you agree to the <%= link_to "Terms of Service", '/TOS' %>
-    </div>
-    <%= f.button "Register"%>
+<%= form_for(@user, html: {class: 'form-horizontal'}) do |f| %>
+<fieldset>   
+  <legend>Registration</legend>   
+  <% errors = @user.errors %>
+  <%= create_field_with_errors f,'email', "What’s your email address?", errors %>
+  <%= create_field_with_errors f,'username', "Enter a username at least 5 characters long. 
+                    It can only include letters, numbers and underscores", errors %>
+  <%= create_field_with_errors f,'first_name', "This field is optional", errors%>
+  <%= create_field_with_errors f,'last_name', "This field is optional",errors %>
+  <%= create_field_with_errors f,'password', "Enter a password atleast 6 characters long",errors %>
+  <%= create_field_with_errors f,'password_confirmation', "Please confirm your password",errors %>
+  <%= create_control_div nil,"By clicking register you agree to our #{link_to 'Terms of Service','/TOS'}"  %>
+  <%= create_control_div nil, f.submit("Register", class: 'btn btn-success') %>
+</fieldset>
 <% end %>

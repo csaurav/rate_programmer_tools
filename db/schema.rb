@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130015947) do
+ActiveRecord::Schema.define(:version => 20130208210244) do
 
   create_table "tools", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20130130015947) do
     t.string   "role"
     t.string   "auth_token"
     t.boolean  "confirmed",       :default => false
+    t.string   "remember_token"
   end
 
 end

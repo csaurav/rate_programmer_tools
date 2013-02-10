@@ -5,7 +5,7 @@ describe 'User' do
 		username = 'fake_username'
 		password = 'some_password'
 		user = User.new username: username, password: password, email: 'a_valid_email@gmail.com',
-										password_confirmation: password
+		password_confirmation: password
 		user.save!
 
 		user.email =  (Faker::Base.regexify  /^[A-Z_a-z0-9_]{5,10}@[a-zA-Z0-9]{2,5}.[a-zA-Z]{2,4}$/)
@@ -13,15 +13,18 @@ describe 'User' do
 
 		user.update_attributes 	email: 'notAValidEmail' 
 		user.should_not be_valid
+		assert user.errors.messages.include? :email
 
 		user.email =  nil
 		user.should_not be_valid
+		assert user.errors.messages.include? :email
 
 		user.email = 'Valid_Email@Gmail.Com'
 		user.save!
 		duplicateEmail = User.new username: 'new_user', password: password, email: 'valid_email@gmail.com',
-										password_confirmation: password
+		password_confirmation: password
 		duplicateEmail.should_not be_valid
+		duplicateEmail.errors.full_messages.include? "Email has already been taken"
 
 	end
 
@@ -37,14 +40,17 @@ describe 'User' do
 		#valid symbols = only underscore
 		user.username =  '$@!====Invalid_Username'
 		user.should_not be_valid
+		assert user.errors.messages.include? :username
 
 		#at least 5 characters
 		user.username =  'hi'
 		user.should_not be_valid
+		assert user.errors.messages.include? :username
 
 		#at most 15 characters
 		user.username =  '1234567890123456'
 		user.should_not be_valid
+		assert user.errors.messages.include? :username
 
 		#MUST have a username
 		user.username =  nil
@@ -55,6 +61,7 @@ describe 'User' do
 		user.save!
 		duplicate = User.new email: email, password: password, username: 'DuPUseRrName',password_confirmation: password
 		duplicate.should_not be_valid
+		duplicate.errors.full_messages.include? "Email has already been taken"
 	end
 
 	it 'has a valid password' do
@@ -63,8 +70,10 @@ describe 'User' do
 		user = User.new username: username, email: email, password: 'test_password', password_confirmation: 'test_password'
 		user.save! 
 
-		user.password =  nil
-		user.should_not be_valid
+		
+		nil_pass_user = User.create(username: username, email: email, password: nil, password_confirmation: nil)
+		nil_pass_user.should_not be_valid
+		nil_pass_user.errors.full_messages.include? "Password can't be blank"
 
 		user.password =  '!@#$%^&*()_+-=;\'{}[]:"<>,.?/'
 		user.password_confirmation = '!@#$%^&*()_+-=;\'{}[]:"<>,.?/'
@@ -87,9 +96,14 @@ describe 'User' do
 
 		user.password_confirmation = 'non_working'
 		user.should_not be_valid
+		user.errors.messages.include? :password_confirmation
 
-		user.password_confirmation = nil
-		user.should_not be_valid
+		#Only test for presence on create
+		nil_pass_user = User.create(username: 'a_new_user', email: 'another_test_email@gmail.com', 
+								password: 'test_password', password_confirmation: nil,
+								)
+		nil_pass_user.should_not be_valid
+		nil_pass_user.errors.full_messages.include? "Password confirmation can't be blank"
 
 	end
 	it 'needs first name and last names tests. if any.'
