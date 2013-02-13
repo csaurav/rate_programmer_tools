@@ -1,7 +1,7 @@
 class LoginController < ApplicationController 
 	def new
 		if @current_user
-			flash[:error] = "You're already logged in. Log out first!"
+			log_user_out
 			redirect_to root_path and return
 		end
 		render :login
@@ -21,10 +21,16 @@ class LoginController < ApplicationController
 		end
 	end
 	def destroy
-		if @current_user
-			cookies.delete(:remember_token)
+		if @current_user #Assuming @current_user always checks for login
+			log_user_out
 			flash[:success] = "You have been successfully logged out"
 		end
 		redirect_to root_path
+	end
+
+	private 
+	def log_user_out
+		cookies.delete(:remember_token) if cookies[:remember_token]
+		@current_user = nil
 	end
 end

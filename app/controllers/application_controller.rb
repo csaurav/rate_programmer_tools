@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   def check_activation
   	if @current_user && !@current_user.confirmed?
   		flash.now[:activate] = "Please activate your account to gain full functionality.<br />
-  		Didn't recieve the activation email? <a href='#'>Click here to resend it</a>"
+  		Didn't recieve the activation email? 
+      #{view_context.link_to "Click here to resend it", resend_activation_user_path(@current_user.username)}"
   	end
   end
 end

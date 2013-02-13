@@ -2,12 +2,13 @@ RateProgrammerTools::Application.routes.draw do
   root :to => 'home#index'
   match 'home/search' => 'home#search'
   
-  resources :users, only: [:new,:create] do 
+  resource :user, only: [:new,:create] do 
     collection do
-      get ':username' => 'users#show', as: :show
-      get 'activate/:auth_token' => 'users#activate', as: :activate
+      get '/profile/:username' => 'users#show', as: :show
+      get 'activate/:activation_token' => 'users#activate', as: :activate
       get 'edit'
       put 'update'      
+      get 'resend_activation/:username' => 'users#resend_activation', as: :resend_activation
     end
   end
 

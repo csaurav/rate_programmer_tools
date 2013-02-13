@@ -6,8 +6,8 @@
 	<div style='text-align: center'>
 		<p>
 			Thanks for signing up! We won't bore you with a long email.<br />
-			<%= link_to 'Click here to activate your account', activate_users_url(auth_token: @user.auth_token)  %> or if you can't, paste the following into your browser.
-			<%= activate_users_url(auth_token: @user.auth_token) %>
+			<%= link_to 'Click here to activate your account', activate_user_url(activation_token: @user.activation_token)  %> or if you can't, paste the following into your browser.
+			<%= activate_user_url(activation_token: @user.activation_token) %>
 		</p>
 	</div>
 	<span style='color: orange'>The Tool Rating Team</span>

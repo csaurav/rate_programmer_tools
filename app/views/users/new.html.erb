@@ -1,4 +1,4 @@
-<%= form_for(@user, html: {class: 'form-horizontal'}) do |f| %>
+<%= form_for(@user, url: :user, method: :post, html: {class: 'form-horizontal'}) do |f| %>
 <fieldset>   
   <legend>Registration</legend>   
   <% errors = @user.errors %>

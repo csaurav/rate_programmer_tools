@@ -1,12 +1,24 @@
 class UsersController < ApplicationController
  
-  #GET /users/new
+  #GET /user/new
   #Sign up form
   def new
   	@user = User.new
   end
 
-  #POST /users/
+  def resend_activation
+    if !@current_user.confirmed && !@current_user.activation_token.nil? 
+      ActivationMailer.activation_email(@current_user).deliver
+      flash[:notice] = "The activation email was resent to #{@current_user.email} <br/>
+                        Be sure to check your spam or trash folder."
+    else
+      flash[:error] = "This account has already been activated"
+    end
+    redirect_to root_path
+  end
+
+
+  #POST /user/
   def create
     @user = User.new params[:user]
     if @user.save
@@ -17,11 +29,11 @@ class UsersController < ApplicationController
     end
   end
 
-  #GET /users/activate/:auth_token
+  #GET /user/activate/:activation_token
   def activate
-    @user = User.find_by_auth_token(params[:auth_token])
+    @user = User.find_by_activation_token(params[:activation_token])
     if @user
-      @user.update_attributes confirmed: true, auth_token: nil
+      @user.update_attributes confirmed: true, activation_token: nil
       flash[:notice] = "Your account has been successfully activated"
     else
       flash[:error] = "Sorry! We couldn't find you in our database!<br /> 
@@ -32,19 +44,10 @@ class UsersController < ApplicationController
       redirect_to login_path  
   end
 
-  #GET /users/:username
+  #GET /user/:username
   def show
     @user = User.find_by_username params[:username]
     render :profile
-  end
-
-  # GET /users/:id/edit
-  # Only a form to update profile
-  def edit 
-  end
-
-  # PUT /users/:id/
-  def update
   end
 
 

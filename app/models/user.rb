@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 	ROLES  = { member: 'MEMBER', pending: 'PENDING',  admin: 'ADMIN' }
 	has_secure_password
 	attr_accessible :username, :email, :password,:password_confirmation, :first_name, 
-									:last_name, :role, :auth_token, :confirmed, :remember_token
+									:last_name, :role, :activation_token, :confirmed, :remember_token
 	validates_presence_of :username, :email
 	validates_presence_of :password, :password_confirmation, :on => :create 
 	validates_uniqueness_of :email, :username, case_sensitive: false
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 	
 	validates_format_of :first_name, :last_name, with: /[A-Za-z]{0,32}/
 
-	before_create :add_auth_token #auth used for ACTIVATION. 
+	before_create :add_activation_token #auth used for ACTIVATION. 
 	before_create :add_remember_token
 
 	def confirmed?
@@ -34,8 +34,8 @@ class User < ActiveRecord::Base
 	end
 	private
 
-	def add_auth_token 
-		self.assign_attributes role: ROLES[:pending], auth_token: SecureRandom.hex(20) 
+	def add_activation_token 
+		self.assign_attributes role: ROLES[:pending], activation_token: SecureRandom.hex(20) 
 		ActivationMailer.activation_email(self).deliver
 	end
 
