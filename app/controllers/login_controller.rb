@@ -15,7 +15,7 @@ class LoginController < ApplicationController
 				cookies[:remember_token] = @user.remember_token
 			end
 			@current_user =  @user
-			render template: 'users/profile'
+			render template: 'users/show'
 		else 
 			redirect_to :login, flash: {error: "Sorry! No such username matches that password"}
 		end

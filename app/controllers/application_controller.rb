@@ -9,7 +9,15 @@ class ApplicationController < ActionController::Base
   	if @current_user && !@current_user.confirmed?
   		flash.now[:activate] = "Please activate your account to gain full functionality.<br />
   		Didn't recieve the activation email? 
-      #{view_context.link_to "Click here to resend it", resend_activation_user_path(@current_user.username)}"
-  	end
+      #{view_context.link_to "Click here to resend it", 
+        resend_activation_user_path(@current_user.username)}"
+    end
   end
+  def must_be_logged_in
+    #Add redirect where they came from functionality in future
+    if  current_user.nil?
+     flash[:error] = "You must be logged in to do that!"
+     redirect_to login_path 
+   end
+ end
 end

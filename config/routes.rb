@@ -6,7 +6,7 @@ RateProgrammerTools::Application.routes.draw do
     collection do
       get '/profile/:username' => 'users#show', as: :show
       get 'activate/:activation_token' => 'users#activate', as: :activate
-      get 'edit'
+      get 'settings' => 'users#edit', as: :edit
       put 'update'      
       get 'resend_activation/:username' => 'users#resend_activation', as: :resend_activation
     end

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
- 
+  before_filter :must_be_logged_in, only: [:edit,:update,:resend_activation]
+
   #GET /user/new
   #Sign up form
   def new
@@ -44,11 +45,18 @@ class UsersController < ApplicationController
       redirect_to login_path  
   end
 
-  #GET /user/:username
+  #GET /user/profile/:username
   def show
-    @user = User.find_by_username params[:username]
-    render :profile
+    @user = User.find_by_username(params[:username]) if params[:username]
   end
 
+  #GET /user/settings
+  def edit
+
+  end
+
+  #PUT /user
+  def update
+  end
 
 end
