@@ -10,6 +10,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'capybara' 
   gem 'database_cleaner'
+  gem 'haml-rails'
   gem 'debugger'
   gem 'faker'
 end

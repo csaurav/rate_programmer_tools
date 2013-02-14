@@ -12,11 +12,8 @@
  *= require_tree .
  */
 
-#flash_messages{margin:10px auto;max-width:900px;}
-#flash_messages #content{margin:0px 10px;}
-
- /* MAY BE A BETTER IDEA TO USE AN IMAGE W/TRANSPARENT BG FOR THE CLOSE BUTTON! */
-
+ #flash_messages{margin:10px auto;max-width:900px;}
+ #flash_messages #content{margin:0px 10px;}
  .flash button {padding: 1px; float: right; text-align: center; border-radius: 100%; border: none; height: 20px; width: 20px; }
  .flash div { display: inline-block;}
  #flash_notice { background-color: #FFDE00; color: #097054;}
