@@ -5,6 +5,7 @@ class HomeController < ApplicationController
       .order("name")
       .page(params[:page])
       .per_page(15)
+
   end
 
   def search

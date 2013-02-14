@@ -10,31 +10,8 @@
     #content-top
       %a{:href => "/"}
         %img{:src => "/images/logo_home.png"}/
-      .auth_links
-        - if  @current_user
-          .btn-group
-            %a.btn.btn-primary{:href => show_user_path(@current_user)}
-              %i.icon-user.icon-white
-              = " #{@current_user.username}"
-            %a.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown"}
-              %span.caret
-            %ul.dropdown-menu
-              %li
-                %a{:href => show_user_path(@current_user)}
-                  %i.icon-list-alt
-                  Profile
-              %li
-                %a{:href => edit_user_path}
-                  %i.icon-pencil
-                  Settings
-              %li.divider
-              %li
-                %a{:href => logout_path}
-                  %i.icon-off
-                  Logout
-        - else
-          = link_to 'Log In', login_path, {class: 'btn'}
-          = link_to 'Sign Up', signup_path, {class: 'btn'}
+        .auth_links
+          = render "shared/user_menu"
       .clear_float
     #content-bottom
       = render partial: "shared/flash_messages", flash: flash
