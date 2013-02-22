@@ -1,41 +1,32 @@
 module FormHelper
-	def create_field_with_errors form,title, message, errors, options = {}
-		
-		if errors.any?
-			if !errors[title.to_sym].empty?
-				options.update(group_classes: 'error')
-				message = errors[title.to_sym].join(" and ")  if !errors[title.to_sym].empty?
-		else
-			options.update(group_classes: 'success')
-			end
+	def bootstrap_form_for(model,options={},&block)
+		options[:builder] = BootstrapFormBuilder
+		options[:html] ||= {class: 'form-horizontal'}
+		form_for model, options, &block
+	end
+
+
+	class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
+		[:text,:password,:email].each do |field_type|
+			method = "def #{field_type}_field type,message, options = {}
+									options['data-content'] = message
+									options['data-original-title'] = type.to_s.upcase.gsub('_',' ')
+									name = type.to_s.capitalize.gsub('_',' ') if type
+									bootstrap_div name, type do
+										super type, options
+									end
+								end"
+			class_eval method
 		end
-		create_field form,title, message, options
+		def submit value, options ={}
+		bootstrap_div nil do
+			super value,options
+		end
+		end
+		def bootstrap_div label = nil, type = nil, &block
+			"<div class='control-group#{' error' if type && @object && !@object.errors[type].empty?}'>
+			<label class='control-label'>#{label}</label>
+			<div class='controls'>#{yield if block}</div></div>"
+		end
 	end
-
-
-
-	#If no field_type given, detects field by first name of title
-	#Example title: password => will use password_field_tag
-	def create_field form, title, message, options = {}
-		
-		options[:field_type] = (title.split('_')[0].downcase + '_field').to_sym if !options[:field_type] 
-		# debugger
-		options[:field_type] = :text_field 	if !form.respond_to?(options[:field_type]) #defaults to text field
-		# debugger
-		name = title.gsub('_',' ').capitalize
-		
-		label_content = label_tag(title, name, {class: 'control-label'})
-
-		controls_content = 	form.send(options[:field_type],  title,
-																			"data-content" => message, 
-																			"data-original-title" => name) 
-
-		create_control_div label_content, controls_content, options[:group_classes]
-	end
-
-	def create_control_div label_content , controls_content = nil, group_classes = ""
-		render partial: "shared/field_forms", locals:  { label_content: label_content,
-																										controls_content: controls_content,
-																										group_classes: group_classes}
-		end 
-	end
+end

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :must_be_logged_in, only: [:edit,:update,:resend_activation]
+  before_filter :logged_in?, only: [:edit,:update,:resend_activation]
+  before_filter :not_logged_in?, only: [:new,:create]
 
   #GET /user/new
   #Sign up form
@@ -11,7 +12,7 @@ class UsersController < ApplicationController
     if !@current_user.confirmed && !@current_user.activation_token.nil? 
       ActivationMailer.activation_email(@current_user).deliver
       flash[:notice] = "The activation email was resent to #{@current_user.email} <br/>
-                        Be sure to check your spam or trash folder."
+      Be sure to check your spam or trash folder."
     else
       flash[:error] = "This account has already been activated"
     end
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
       If the problem persists please contact an administrator"
       redirect_to controller: 'home', action: 'search' and return
     end
-      redirect_to login_path  
+    redirect_to login_path  
   end
 
   #GET /user/profile/:username
@@ -57,6 +58,7 @@ class UsersController < ApplicationController
 
   #PUT /user
   def update
+    render 'edit'
   end
 
 end

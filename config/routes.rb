@@ -1,7 +1,8 @@
 RateProgrammerTools::Application.routes.draw do
   root :to => 'home#index'
   match 'home/search' => 'home#search'
-  
+    
+  #Maybe add index -> /user route 
   resource :user, only: [:new,:create] do 
     collection do
       get '/profile/:username' => 'users#show', as: :show
@@ -14,8 +15,8 @@ RateProgrammerTools::Application.routes.draw do
 
 
   #Login, Signup routes
-  get  '/login'  => 'login#new'
-  post '/login'  => 'login#create'
+  get   '/login'  => 'login#new'
+  post  '/login'  => 'login#create'
   match '/logout' => 'login#destroy'
   match '/signup' => 'users#new'
 

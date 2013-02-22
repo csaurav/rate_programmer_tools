@@ -6,6 +6,7 @@ class LoginController < ApplicationController
 		end
 		render :login
 	end
+
 	def create
 		@user = User.authenticate(params[:user])
 		if @user
@@ -20,6 +21,7 @@ class LoginController < ApplicationController
 			redirect_to :login, flash: {error: "Sorry! No such username matches that password"}
 		end
 	end
+
 	def destroy
 		if @current_user #Assuming @current_user always checks for login
 			log_user_out
@@ -29,8 +31,10 @@ class LoginController < ApplicationController
 	end
 
 	private 
+	
 	def log_user_out
 		cookies.delete(:remember_token) if cookies[:remember_token]
 		@current_user = nil
 	end
+
 end

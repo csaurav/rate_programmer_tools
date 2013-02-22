@@ -1,0 +1,13 @@
+= bootstrap_form_for @user, url: :user, method: :post do |f|
+	%fieldset 
+		.container
+			%legend Registeration
+			!= f.email_field :email, 'Please enter your email'
+			!= f.text_field 'username', "Enter a username at least 5 characters long. It can only include letters, numbers and underscores"
+			!= f.text_field 'first_name', "This field is optional" 
+			!= f.text_field 'last_name', "This field is optional" 
+			!= f.password_field 'password', "Enter a password atleast 6 characters long" 
+			!= f.password_field 'password_confirmation', "Please confirm your password" 
+			!= f.bootstrap_div nil do "By clicking register you agree to our #{link_to 'Terms of Service','/TOS'}" end
+			!= f.submit "Register", class: 'btn btn-success'
+			/ = create_control_div nil, f.submit("Register", class: 'btn btn-success') 

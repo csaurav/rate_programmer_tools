@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212001623) do
+ActiveRecord::Schema.define(:version => 20130214235747) do
 
   create_table "tools", :force => true do |t|
     t.string   "name"
@@ -31,6 +31,9 @@ ActiveRecord::Schema.define(:version => 20130212001623) do
     t.string   "activation_token"
     t.boolean  "confirmed",        :default => false
     t.string   "remember_token"
+    t.string   "bio"
+    t.string   "occupation"
+    t.string   "location"
   end
 
 end
