@@ -1,13 +1,17 @@
-- form_for(@current_user, url: :user, method: :put, html: {class: 'form-horizontal'}) do |f| 
-  %fieldset
-    %legend Edit Settings   
-    = create_field 'email', "Change your email address"
-    = create_field 'first_name', "This field is optional"
-    = create_field 'last_name', "This field is optional" 
-    = create_field 'password', "Enter a password atleast 6 characters long" 
-    = create_field 'password_confirmation', "Please confirm your password" 
-    %br/
-    = create_field 'location',"Enter your current location. Optional field"
-    = create_field 'occupation',"Where do you work?"
-    = create_field 'bio', "Who are you?"
-    = create_control_div nil, f.submit("Confirm", class: 'btn btn-primary') 
+- include_javascript :edit,:popover
+= bootstrap_form_for @current_user, url: :user, method: :put do |f|
+	%fieldset
+		.container 
+			%legend Settings
+			!= f.password_field :current_password, "Enter your current password to make changes"
+			!= f.email_field :email, "Change your email address"
+			!= f.text_field :first_name, "Change your first name"
+			!= f.text_field :last_name, "Change your last name" 
+			!= f.password_field :password, "Enter a new password atleast 6 characters long" 
+			!= f.password_field :password_confirmation, "Please confirm your new password" 
+			!= f.submit "Confirm Changes", class: 'btn btn-primary'
+			%legend About
+			!= f.text_field :location,"Enter your current location. Optional field"
+			!= f.text_field :occupation,"Where do you work?"
+			!= f.text_area :bio, nil, class: 'span8 input-medium'
+			!= f.submit "Confirm Changes", class: 'btn btn-primary'

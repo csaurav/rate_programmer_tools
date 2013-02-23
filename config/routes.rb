@@ -3,12 +3,12 @@ RateProgrammerTools::Application.routes.draw do
   match 'home/search' => 'home#search'
     
   #Maybe add index -> /user route 
-  resource :user, only: [:new,:create] do 
+  resource :user, only: [:new,:create,:update] do 
     collection do
+    	get '/' => 'users#index'
       get '/profile/:username' => 'users#show', as: :show
       get 'activate/:activation_token' => 'users#activate', as: :activate
-      get 'settings' => 'users#edit', as: :edit
-      put 'update'      
+      get 'settings' => 'users#edit', as: :edit      
       get 'resend_activation/:username' => 'users#resend_activation', as: :resend_activation
     end
   end

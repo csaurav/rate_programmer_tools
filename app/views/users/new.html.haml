@@ -1,3 +1,4 @@
+- include_javascript :popover
 = bootstrap_form_for @user, url: :user, method: :post do |f|
 	%fieldset 
 		.container
@@ -9,5 +10,4 @@
 			!= f.password_field 'password', "Enter a password atleast 6 characters long" 
 			!= f.password_field 'password_confirmation', "Please confirm your password" 
 			!= f.bootstrap_div nil do "By clicking register you agree to our #{link_to 'Terms of Service','/TOS'}" end
-			!= f.submit "Register", class: 'btn btn-success'
-			/ = create_control_div nil, f.submit("Register", class: 'btn btn-success') 
+			!= f.submit "Register"

@@ -8,7 +8,7 @@ class LoginController < ApplicationController
 	end
 
 	def create
-		@user = User.authenticate(params[:user])
+		@user = User.try(:authenticate,params[:user][:username],params[:user][:password])
 		if @user
 			if params[:remember_me]  # -- Susceptible to cookie jacking?
 				cookies.permanent[:remember_token] = @user.remember_token
@@ -16,7 +16,7 @@ class LoginController < ApplicationController
 				cookies[:remember_token] = @user.remember_token
 			end
 			@current_user =  @user
-			render template: 'users/show'
+			redirect_to root_path
 		else 
 			redirect_to :login, flash: {error: "Sorry! No such username matches that password"}
 		end

@@ -1,0 +1,11 @@
+.container
+	%legend Profile
+	-if @user
+		= image_tag avatar_url @user
+		= @user.username
+		%br/
+		= @user.first_name + ' ' + @user.last_name if @user.first_name && @user.last_name
+		%br/
+		= @user.email if @user.email
+		%br/
+		= @user.occupation if @user.occupation
