@@ -1,11 +1,19 @@
 .container
-	%legend Profile
-	-if @user
-		= image_tag avatar_url @user
-		= @user.username
-		%br/
-		= @user.first_name + ' ' + @user.last_name if @user.first_name && @user.last_name
-		%br/
-		= @user.email if @user.email
-		%br/
-		= @user.occupation if @user.occupation
+	.span10.well
+		%legend 
+			= @user.username
+		.row
+			.span1
+				= image_tag avatar_url @user
+			.span2
+			%p 
+				%span.label.label-inverse Name: 
+				= @user.first_name + ' ' + @user.last_name
+		.row 
+			.span1
+				%span{:class => [:label,bootstrap_class_for_role(@user.role)]}
+					= @user.role
+			.span2
+			%p
+				%span.label.label-inverse Location:
+				= @user.location if @user.location

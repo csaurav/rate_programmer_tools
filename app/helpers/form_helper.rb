@@ -5,7 +5,7 @@ module FormHelper
   def include_javascript(*files)
     content_for(:head) { javascript_include_tag(*files) } 
   end
-  def bootstrap_class_for flash_type
+  def bootstrap_class_for_flash flash_type
     case flash_type
       when :success
         "alert-success"
@@ -20,7 +20,18 @@ module FormHelper
     end
   end
 
-	
+	def bootstrap_class_for_role user_role
+		case user_role
+		when roles[:pending]
+			"label-warning"
+		when roles[:member]
+			"label-success"
+		when roles[:moderator]
+			"label-important"		
+		when roles[:admin]
+			"label-inverse"
+		end
+	end
 	def bootstrap_form_for(model,options={},&block)
 		options[:builder] = BootstrapFormBuilder
 		options[:html] ||= {class: 'form-horizontal'}
