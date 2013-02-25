@@ -1,24 +1,33 @@
 RateProgrammerTools::Application.routes.draw do
-  root :to => 'home#index'
-  match 'home/search' => 'home#search'
-    
-  #Maybe add index -> /user route 
-  resource :user, only: [:new,:create,:update] do 
-    collection do
-    	get '/' => 'users#index'
-      get '/profile/:username' => 'users#show', as: :show
-      get 'activate/:activation_token' => 'users#activate', as: :activate
-      get 'settings' => 'users#edit', as: :edit      
-      get 'resend_activation/:username' => 'users#resend_activation', as: :resend_activation
-    end
-  end
 
+	root :to => 'home#index'
+	match 'home/search' => 'home#search'
 
-  #Login, Signup routes
-  get   '/login'  => 'login#new'
-  post  '/login'  => 'login#create'
-  match '/logout' => 'login#destroy'
-  match '/signup' => 'users#new'
+	#User related routes
+	resource :user, only: [:new,:create,:update] do 
+		collection do
+			get '/' => 'users#index'
+			get 'profile/:username' => 'users#show', as: :show
+			get 'settings' => 'users#edit', as: :edit      
+
+			#Activation
+			get 'activate/:activation_token' => 'users#activate', as: :activate
+			get 'resend_activation/:username' => 'users#resend_activation', as: :resend_activation
+
+		  #Password Reset 
+		  get  'forgot_password'  => 'reset_password#new'
+		  post 'forgot_password'  => 'reset_password#create'
+		  get  'reset_password/:reset_token' => 'reset_password#edit', as: :reset_password
+		  put  'reset_password' =>  'reset_password#update'
+
+	  	#Login, Signup routes
+	  	get   'login'  => 'login#new'
+	  	post  'login'  => 'login#create'
+	  	match 'logout' => 'login#destroy'
+	  	match 'signup' => 'users#new'
+	  end
+	end
+
 
 
 

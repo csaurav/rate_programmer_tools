@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     #Add redirect where they came from functionality in future
     if current_user.nil?
       flash[:error] = "You must be logged in to do that!"
-      redirect_to login_path 
+      redirect_to login_user_path 
     end
   end
  def must_not_be_logged_in

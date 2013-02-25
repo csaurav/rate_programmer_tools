@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 	has_secure_password
 	attr_accessible :username, :email, :password,:password_confirmation, :first_name, 
 	:last_name, :role, :activation_token, :confirmed, :remember_token,
-	:bio, :occupation, :location 
+	:bio, :occupation, :location, :reset_token, :reset_token_expiration
 	validates_presence_of :username, :email
 	validates_presence_of :password, :password_confirmation, on: :create 
 	validates_uniqueness_of :email, :username, case_sensitive: false
@@ -31,11 +31,16 @@ class User < ActiveRecord::Base
 	def to_param
 		username if username.present?
 	end
-	private
 
+	def add_reset_token
+		generate_token(:reset_token)
+		update_attributes reset_token_expiration: 3.hours.from_now
+	end
+
+	private
 	def add_activation_token 
 		self.assign_attributes role: ROLES[:pending], activation_token: SecureRandom.hex(20) 
-		ActivationMailer.activation_email(self).deliver
+		UserMailer.activation_email(self).deliver
 	end
 
 	def add_remember_token

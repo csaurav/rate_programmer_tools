@@ -1,0 +1,12 @@
+%br
+%br
+.container.well
+	%fieldset
+		%legend Reset Password
+		= form_tag url: :forgot_password, method: :post do
+			.span1		
+				%strong Username or Email
+			.span2
+			.input-append
+				= text_field_tag :identifier, nil, class: 'input-xlarge', placeholder: "Enter Username or Email"
+				= button_tag 'Submit', class: 'btn btn-danger'	

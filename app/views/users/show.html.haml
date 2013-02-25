@@ -8,12 +8,4 @@
 			.span2
 			%p 
 				%span.label.label-inverse Name: 
-				= @user.first_name + ' ' + @user.last_name
-		.row 
-			.span1
-				%span{:class => [:label,bootstrap_class_for_role(@user.role)]}
-					= @user.role
-			.span2
-			%p
-				%span.label.label-inverse Location:
-				= @user.location if @user.location
+				= @user.first_name + ' ' + @user.last_name	

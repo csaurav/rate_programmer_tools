@@ -1,4 +1,6 @@
 class LoginController < ApplicationController 
+	
+	#GET /login
 	def new
 		if @current_user
 			log_user_out
@@ -7,8 +9,9 @@ class LoginController < ApplicationController
 		render :login
 	end
 
+	#POST /login
 	def create
-		@user = User.try(:authenticate,params[:user][:username],params[:user][:password])
+		@user = User.authenticate(params[:user][:username],params[:user][:password])
 		if @user
 			if params[:remember_me]  # -- Susceptible to cookie jacking?
 				cookies.permanent[:remember_token] = @user.remember_token
@@ -18,10 +21,11 @@ class LoginController < ApplicationController
 			@current_user =  @user
 			redirect_to root_path
 		else 
-			redirect_to :login, flash: {error: "Sorry! No such username matches that password"}
+			redirect_to :login_user, flash: {error: "Sorry! No such username matches that password"}
 		end
 	end
 
+	#MATCH /logout
 	def destroy
 		if @current_user #Assuming @current_user always checks for login
 			log_user_out
