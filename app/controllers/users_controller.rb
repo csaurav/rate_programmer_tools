@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   #GET /user
   def index
-  	@user = @current_user
+  	@user = current_user
   	render :show
   end
   #GET /user/new
@@ -15,9 +15,9 @@ class UsersController < ApplicationController
 
   #GET resend_activation/:username
   def resend_activation
-  	if !@current_user.confirmed && !@current_user.activation_token.nil? 
-  		UserMailer.activation_email(@current_user).deliver
-  		flash[:notice] = "The activation email was resent to #{@current_user.email} <br/>
+  	if !current_user.confirmed && !current_user.activation_token.nil? 
+  		UserMailer.activation_email(current_user).deliver
+  		flash[:notice] = "The activation email was resent to #{current_user.email} <br/>
   		Be sure to check your spam or trash folder."
   	else
   		flash[:error] = "This account has already been activated"
@@ -64,12 +64,12 @@ class UsersController < ApplicationController
 
   #PUT /user
   def update
-  	if @current_user && params[:user][:current_password] && 
-  		User.authenticate(@current_user.username, params[:user][:current_password])
+  	if current_user && params[:user][:current_password] && 
+  		User.authenticate(current_user.username, params[:user][:current_password])
   		[:email,:first_name,:last_name,:password,:password_confirmation,:location,:occupation,:bio].each do |field|
-  			@current_user.assign_attributes field => params[:user][field] if !params[:user][field].empty?
+  			current_user.assign_attributes field => params[:user][field] if !params[:user][field].empty?
   		end
-  		if !@current_user.save
+  		if !current_user.save
   			flash.now[:error] = "Oops. Looks like there were some errors"
   		else
   			flash.now[:success] = "Changes made successfully" 

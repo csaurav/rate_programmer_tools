@@ -2,7 +2,7 @@ class LoginController < ApplicationController
 	
 	#GET /login
 	def new
-		if @current_user
+		if current_user
 			log_user_out
 			redirect_to root_path and return
 		end
@@ -27,7 +27,7 @@ class LoginController < ApplicationController
 
 	#MATCH /logout
 	def destroy
-		if @current_user #Assuming @current_user always checks for login
+		if current_user 
 			log_user_out
 			flash[:success] = "You have been successfully logged out"
 		end
