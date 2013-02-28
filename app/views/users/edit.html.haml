@@ -2,19 +2,56 @@
 %br/
 = bootstrap_form_for current_user, url: :user, method: :put do |f|
 	%fieldset
-		.container.well 
-			%legend Settings
+		.container
+			.h2
+				%strong Please enter your password to make ANY changes:
+			%br/
 			!= f.password_field :current_password, "Enter your current password to make changes"
-			!= f.email_field :email, "Change your email address"
-			!= f.text_field :first_name, "Change your first name"
-			!= f.text_field :last_name, "Change your last name" 
-			!= f.password_field :password, "Enter a new password atleast 6 characters long" 
-			!= f.password_field :password_confirmation, "Please confirm your new password" 
-			!= f.submit "Confirm Changes", class: 'btn btn-primary'
-			%legend About
-			!= f.text_field :location,"Enter your current location. Optional field"
-			!= f.text_field :occupation,"Where do you work?"
-			!= f.text_area :bio, nil, class: 'span8 input-medium'
-			!= f.submit "Confirm Changes", class: 'btn btn-primary'
+		.tabbable.tabs-above
+			%ul.nav.nav-tabs.nav-pills
+				%li.active 
+					%a{href:'#A', 'data-toggle' => 'tab' }Settings
+				%li
+					%a{href:'#B', 'data-toggle' => 'tab' }About
+			.tab-content
+				.tab-pane.active{id:'A'}
+					.container.well 
+						%legend Settings
+						!= f.email_field :email, "Change your email address"
+						!= f.text_field :first_name, "Change your first name"
+						!= f.text_field :last_name, "Change your last name" 
+						!= f.password_field :password, "Enter a new password atleast 6 characters long" 
+						!= f.password_field :password_confirmation, "Please confirm your new password" 
+						!= f.submit "Confirm Changes", class: 'btn btn-primary'
+				.tab-pane{id:'B'}
+					.container.well
+						%legend About
+						!= f.text_field :location,"Enter your current location. Optional field"
+						!= f.text_field :occupation,"Where do you work?"
+						!= f.text_area :bio, nil, class: 'span8 input-medium'
+						!= f.submit "Confirm Changes", class: 'btn btn-primary'
 
 			
+/ <ul class="nav nav-tabs">
+/                 <li class="active"><a href="#A" data-toggle="tab">Section 1</a></li>
+/                 <li><a href="#B" data-toggle="tab">Section 2</a></li>
+/                 <li><a href="#C" data-toggle="tab">Section 3</a></li>
+/               </ul>
+/	 <div class="tabbable tabs-below">
+/            <div class="tab-content">
+/              <div class="tab-pane active" id="A">
+/                <p>I'm in Section A.</p>
+/              </div>
+/              <div class="tab-pane" id="B">
+/                <p>Howdy, I'm in Section B.</p>
+/              </div>
+/              <div class="tab-pane" id="C">
+/                <p>What up girl, this is Section C.</p>
+/              </div>
+/            </div>
+/            <ul class="nav nav-tabs">
+/              <li class="active"><a href="#A" data-toggle="tab">Section 1</a></li>
+/              <li><a href="#B" data-toggle="tab">Section 2</a></li>
+/              <li><a href="#C" data-toggle="tab">Section 3</a></li>
+/            </ul>
+/          </div>
