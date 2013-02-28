@@ -6,7 +6,7 @@ class User::LoginController < ApplicationController
 			log_user_out
 			redirect_to root_path and return
 		end
-		render :login
+		render :login #, :layout false
 	end
 
 	#POST /login
