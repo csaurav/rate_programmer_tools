@@ -1,0 +1,4 @@
+Hi <%= @user.username if @user  %>,<br/>
+	Looks like you wanted to reset your password
+	To do so you can <%= link_to "Click Me", user_reset_password_url(@user.reset_token) %> or if you can't paste the link below into your browser<br/>
+	<%= user_reset_password_url(@user.reset_token) %>

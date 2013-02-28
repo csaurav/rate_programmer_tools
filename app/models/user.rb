@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   validates :password,format: {with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]{5,32}/}, allow_blank: true,on: :update
 	validates :password, format: {with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]{5,32}/}, on: :create
 	
-	validates_format_of :first_name, :last_name, with: /[A-Za-z]{0,32}/
+	validates_format_of :first_name, :last_name, with: /[A-Za-z]{0,32}/,allow_blank: true
 
 	before_create :add_activation_token #auth used for ACTIVATION. 
 	before_create :add_remember_token

@@ -1,7 +1,8 @@
 - include_javascript :popover
+%br/
 = bootstrap_form_for @user, url: :user, method: :post do |f|
 	%fieldset 
-		.container
+		.container.well
 			%legend Registeration
 			!= f.email_field :email, 'Please enter your email'
 			!= f.text_field 'username', "Enter a username at least 5 characters long. It can only include letters, numbers and underscores"

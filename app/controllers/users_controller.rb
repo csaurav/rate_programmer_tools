@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   	@user = current_user
   	render :show
   end
+
   #GET /user/new
   #Sign up form
   def new
@@ -39,7 +40,7 @@ class UsersController < ApplicationController
 
   #GET /user/activate/:activation_token
   def activate
-  	@user = User.find_by_activation_token(params[:activation_token])
+  	@user = params[:activation_token] ? User.find_by_activation_token(params[:activation_token]) : nil
   	if @user
   		@user.update_attributes confirmed: true, activation_token: nil
   		flash[:notice] = "Your account has been successfully activated"
@@ -49,7 +50,7 @@ class UsersController < ApplicationController
   		If the problem persists please contact an administrator"
   		redirect_to controller: 'home', action: 'search' and return
   	end
-  	redirect_to login_user_path  
+  	redirect_to user_login_path  
   end
 
   #GET /user/profile/:username

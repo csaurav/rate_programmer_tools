@@ -1,7 +1,8 @@
 - include_javascript :edit,:popover
+%br/
 = bootstrap_form_for current_user, url: :user, method: :put do |f|
 	%fieldset
-		.container 
+		.container.well 
 			%legend Settings
 			!= f.password_field :current_password, "Enter your current password to make changes"
 			!= f.email_field :email, "Change your email address"
@@ -15,3 +16,5 @@
 			!= f.text_field :occupation,"Where do you work?"
 			!= f.text_area :bio, nil, class: 'span8 input-medium'
 			!= f.submit "Confirm Changes", class: 'btn btn-primary'
+
+			

@@ -20,9 +20,9 @@
 					Request Tool
 			%li.divider
 			%li
-				%a{:href => logout_user_path}
+				%a{:href => user_logout_path}
 					%i.icon-off
 					Logout
 - else
-	= link_to 'Log In', login_user_path, {class: 'btn'}
-	= link_to 'Sign Up', signup_user_path, {class: 'btn'}
+	= link_to 'Log In', user_login_path, {class: 'btn'}
+	= link_to 'Sign Up', user_signup_path, {class: 'btn'}

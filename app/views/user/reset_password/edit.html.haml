@@ -1,0 +1,11 @@
+- include_javascript :popover
+%br
+%br
+.container.well
+	%fieldset
+		%legend Reset Password
+		!= bootstrap_form_for @user,url: :user_update_password, method: :put do |f|
+			!= f.hidden_field :reset_token, value: @user.reset_token
+			!= f.password_field :password, "Enter a new password"
+			!= f.password_field :password_confirmation, "Confirm your new password"
+			!= f.submit "Change Password"

@@ -1,4 +1,4 @@
-class LoginController < ApplicationController 
+class User::LoginController < ApplicationController 
 	
 	#GET /login
 	def new
@@ -21,7 +21,7 @@ class LoginController < ApplicationController
 			@current_user =  @user
 			redirect_to root_path
 		else 
-			redirect_to :login_user, flash: {error: "Sorry! No such username matches that password"}
+			redirect_to :user_login, flash: {error: "Sorry! No such username matches that password"}
 		end
 	end
 
