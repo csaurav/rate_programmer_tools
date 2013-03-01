@@ -20,7 +20,6 @@ RateProgrammerTools::Application.routes.draw do
 		get   'login'  => 'login#new'
 		post  'login'  => 'login#create'
 		match 'logout' => 'login#destroy'
-		match 'signup' => 'users#new'
 	end
 	#User related routes
 	resource :user, only: [:new,:create,:update] do 
@@ -29,6 +28,8 @@ RateProgrammerTools::Application.routes.draw do
 			get 'profile/:username' => 'users#show', as: :show
 			get 'settings' => 'users#edit', as: :edit      
 
+			#Alias to /user/new
+			match  'signup' => 'users#new'
 		end
 	end
 
