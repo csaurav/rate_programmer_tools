@@ -7,18 +7,21 @@ gem 'rails', '3.2.9'
 gem 'bcrypt-ruby'
 gem 'sqlite3'
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'capybara' 
-  gem 'database_cleaner'
-  gem 'haml-rails'
-  gem 'debugger'
-  gem 'faker'
+	gem 'rspec-rails'
+	gem 'capybara' 
+	gem 'pry'
+	gem 'factory_girl'
+	gem 'shoulda'
+	gem 'database_cleaner'
+	gem 'haml-rails'
+	gem 'debugger'
+	gem 'faker'
 end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+	gem 'sass-rails',   '~> 3.2.3'
+	gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

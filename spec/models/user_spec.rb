@@ -1,110 +1,75 @@
 require 'spec_helper'
+require 'shoulda-matchers'	
 require 'faker'
-describe 'User' do
-	it 'has a valid email' do
-		username = 'fake_username'
-		password = 'some_password'
-		user = User.new username: username, password: password, email: 'a_valid_email@gmail.com',
-		password_confirmation: password
-		user.save!
+require 'pry'
+require 'shoulda'
 
-		user.email =  (Faker::Base.regexify  /^[A-Z_a-z0-9_]{5,10}@[a-zA-Z0-9]{2,5}.[a-zA-Z]{2,4}$/)
-		user.should be_valid
 
-		user.update_attributes 	email: 'notAValidEmail' 
-		user.should_not be_valid
-		assert user.errors.messages.include? :email
 
-		user.email =  nil
-		user.should_not be_valid
-		assert user.errors.messages.include? :email
+describe User do
+	
+	it 'has a valid email' do 	
+		should validate_presence_of(:email) 
+		should validate_uniqueness_of(:email)
+		
+		user =  User.new email: Faker::Base.regexify(/^[A-Za-z0-9_]{5,10}@[A-Za-z0-9]{2,5}.[A-Za-z]{2,4}$/)
+		user.should have(:no).error_on(:email)
 
-		user.email = 'Valid_Email@Gmail.Com'
-		user.save!
-		duplicateEmail = User.new username: 'new_user', password: password, email: 'valid_email@gmail.com',
-		password_confirmation: password
-		duplicateEmail.should_not be_valid
-		duplicateEmail.errors.full_messages.include? "Email has already been taken"
-
+		should_not allow_value("notAValidEmail").for(:email)
 	end
 
 	it 'has a valid username' do
-		email =  'valid_email@gmail.com'
-		password = 'some_password'
-		user = User.new username: 'Valid_Username', email: email, password: password,password_confirmation: password
-		user.save!
+		should validate_presence_of(:username)
+		should validate_uniqueness_of(:username)
 
-		user.username =  (Faker::Base.regexify /^[a-z0-9_-]{5,15}$/)
-		user.should be_valid
+		user =  User.new username: Faker::Base.regexify(/^[a-z0-9_-]{5,15}$/)
+		user.should have(:no).error_on(:username)
 
 		#valid symbols = only underscore
-		user.username =  '$@!====Invalid_Username'
-		user.should_not be_valid
-		assert user.errors.messages.include? :username
+		should_not allow_value('$@!====Invalid_Username').for(:username)
 
 		#at least 5 characters
-		user.username =  'hi'
-		user.should_not be_valid
-		assert user.errors.messages.include? :username
+		should ensure_length_of(:username).is_at_least(5).is_at_most(15)
+		should_not allow_value('hi').for(:username)
+		should_not allow_value('12345678901234567890').for(:username)
 
-		#at most 15 characters
-		user.username =  '1234567890123456'
-		user.should_not be_valid
-		assert user.errors.messages.include? :username
-
-		#MUST have a username
-		user.username =  nil
-		user.should_not be_valid
-
-		#username must be unique
-		user.username =  'dupUserName'
-		user.save!
-		duplicate = User.new email: email, password: password, username: 'DuPUseRrName',password_confirmation: password
-		duplicate.should_not be_valid
-		duplicate.errors.full_messages.include? "Email has already been taken"
 	end
 
-	it 'has a valid password' do
-		username = 'fake_username'
-		email = 'valid_email@gmail.com'
-		user = User.new username: username, email: email, password: 'test_password', password_confirmation: 'test_password'
-		user.save! 
+	it 'has a valid password and passowrd confirmation' do
+		should validate_presence_of(:password)
+		should validate_presence_of(:password_confirmation)
 
+		should validate_confirmation_of(:password)
 		
-		nil_pass_user = User.create(username: username, email: email, password: nil, password_confirmation: nil)
-		nil_pass_user.should_not be_valid
-		nil_pass_user.errors.full_messages.include? "Password can't be blank"
+		#Valid password symbols.
+		should allow_value('\\!@#$%^&*()_+-=;\'{}[]:"<>,.?/').for(:password)
+		should allow_value('\\!@#$%^&*()_+-=;\'{}[]:"<>,.?/').for(:password_confirmation)
 
-		user.password =  '!@#$%^&*()_+-=;\'{}[]:"<>,.?/'
-		user.password_confirmation = '!@#$%^&*()_+-=;\'{}[]:"<>,.?/'
-		user.should be_valid
-
-		user.password =  'aValidPassword1234567890'
-		user.password_confirmation = 'aValidPassword1234567890'
-		user.should be_valid
-
-		user.password =  '\\password'
-		user.password_confirmation = '\\password'
-		user.should be_valid
+		#Password atleast 6 characters long and atmost 32 characters 
+		should ensure_length_of(:password).is_at_least(6).is_at_most(32) 
+		should ensure_length_of(:password_confirmation).is_at_least(6).is_at_most(32) 
+		should_not allow_value('1234').for(:password)
+		should_not allow_value('-'*45).for(:password)
+		should_not allow_value('1234').for(:password_confirmation)
+		should_not allow_value('-'*45).for(:password_confirmation)
 	end
 
-	it 'password confirmation works' do
-		username = 'fake_username'
-		email = 'valid_email@gmail.com'
-		user = User.new username: username, email: email, password: 'test_password', password_confirmation: 'test_password'
-		user.save!
 
-		user.password_confirmation = 'non_working'
-		user.should_not be_valid
-		user.errors.messages.include? :password_confirmation
+	it 'has a valid first and last name' do
+		should allow_value('Jane').for(:first_name)
+		should allow_value('Doe').for(:last_name)
 
-		#Only test for presence on create
-		nil_pass_user = User.create(username: 'a_new_user', email: 'another_test_email@gmail.com', 
-								password: 'test_password', password_confirmation: nil,
-								)
-		nil_pass_user.should_not be_valid
-		nil_pass_user.errors.full_messages.include? "Password confirmation can't be blank"
+		#Only Letters and numbers and hyphens allowed
+		# should_not allow_value('@!>::<>').for(:first_name)
+		should_not allow_value('@@@@@@@').for(:last_name)
 
+		#Length at most 32 characters
+		should ensure_length_of(:first_name).is_at_most(32)
+		should ensure_length_of(:last_name).is_at_most(32)
+		should_not allow_value('a'*45).for(:first_name)
+		should_not allow_value('a'*45).for(:last_name)
 	end
-	it 'needs first name and last names tests. if any.'
+	it 'has a valid role' do 
+		should ensure_inclusion_of(:role).in_array(User::ROLES.values)
+	end
 end

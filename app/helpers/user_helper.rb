@@ -4,6 +4,6 @@ module UserHelper
 		"http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}"+options
 	end
 	def roles
-		{ member: 'Member', pending: 'Pending',  moderator: 'Moderator', admin: 'Admin' } # REPEATED CODE. SAME IN MODEL FIX!
+		User::ROLES
 	end
 end

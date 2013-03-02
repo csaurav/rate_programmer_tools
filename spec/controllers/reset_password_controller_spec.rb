@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe ResetPasswordController do
+describe User::ResetPasswordController do
 
 end
