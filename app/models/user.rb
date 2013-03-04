@@ -19,13 +19,12 @@ class User < ActiveRecord::Base
 	validates :email, format: { with: /^[A-Z_a-z0-9-]+(\.[A-Z_a-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$/ }
 	validates_format_of :password, :password_confirmation, with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]*/, allow_blank: true
 	validates_length_of :password, :password_confirmation, minimum: 6, maximum: 32
-	validates_format_of :first_name, :last_name, with: (/[\w]*/), allow_blank: true 
+	validates_format_of :first_name, :last_name, with: (/^[\w\s]*$/), allow_blank: true 
 	validates_length_of :first_name, :last_name, maximum: 32
-
 	validates :role, inclusion: { in: ROLES.values }
 
 	#Add necessary tokens 
-	before_create :add_activation_token  
+	before_validation :add_activation_token, on: :create #Assigns default role ROLES[:pending]
 	before_create :add_remember_token
 	before_save :sanitize_fields
 	def confirmed?

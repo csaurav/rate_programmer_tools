@@ -11,8 +11,8 @@
     #content-top
       %a{:href => "/"}
         %img{:src => "/images/logo_home.png"}/
-        .auth_links
-          = render "shared/user_menu"
+      .auth_links
+        = render "shared/user_menu"
       .clear_float
     #content-bottom
       = render partial: "shared/flash_messages", flash: flash

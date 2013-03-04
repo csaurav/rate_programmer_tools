@@ -42,8 +42,8 @@ describe User do
 		should validate_confirmation_of(:password)
 		
 		#Valid password symbols.
-		should allow_value('\\!@#$%^&*()_+-=;\'{}[]:"<>,.?/').for(:password)
-		should allow_value('\\!@#$%^&*()_+-=;\'{}[]:"<>,.?/').for(:password_confirmation)
+		should allow_value('!@#$%^&*()-_=+{}[]:";\\\'<>,.?/').for(:password)
+		should allow_value('!@#$%^&*()-_=+{}[]:";\\\'<>,.?/').for(:password_confirmation)
 
 		#Password atleast 6 characters long and atmost 32 characters 
 		should ensure_length_of(:password).is_at_least(6).is_at_most(32) 
@@ -60,7 +60,7 @@ describe User do
 		should allow_value('Doe').for(:last_name)
 
 		#Only Letters and numbers and hyphens allowed
-		# should_not allow_value('@!>::<>').for(:first_name)
+		should_not allow_value('@!>::<>').for(:first_name)
 		should_not allow_value('@@@@@@@').for(:last_name)
 
 		#Length at most 32 characters
@@ -70,6 +70,8 @@ describe User do
 		should_not allow_value('a'*45).for(:last_name)
 	end
 	it 'has a valid role' do 
-		should ensure_inclusion_of(:role).in_array(User::ROLES.values)
+		should allow_value(User::ROLES[:pending]).for(:role)
+		binding.pry
+		should ensure_inclusion_of(:role).in_array(User::ROLES.values).for(User.new)
 	end
 end
