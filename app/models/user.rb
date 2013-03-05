@@ -15,17 +15,18 @@ class User < ActiveRecord::Base
 	validates_presence_of :username, :email
 	validates_presence_of :password, :password_confirmation, on: :create 
 	validates_uniqueness_of :email, :username, case_sensitive: false 
-	validates :username, format: {with: /^[A-Za-z0-9_-]*$/}, length: {minimum: 5, maximum: 15}
+	validates :username, format: {with: /^[A-Za-z0-9_-]*$/, message: "can only contain A-Z,a-z,0-9 and underscores"}, 
+	length: {minimum: 5, maximum: 15}
 	validates :email, format: { with: /^[A-Z_a-z0-9-]+(\.[A-Z_a-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$/ }
-	validates_format_of :password, :password_confirmation, with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]*/, allow_blank: true
+	validates_format_of :password, :password_confirmation, with: /[\d\w\\\!#$@%^&*()\+-='\[\]:>?"{}]*/, allow_blank: true, 
+	message: "Password can only contain valid symbols such as '!@#{}$%^& etc.'" 
 	validates_length_of :password, :password_confirmation, minimum: 6, maximum: 32
-	validates_format_of :first_name, :last_name, with: (/^[\w\s]*$/), allow_blank: true 
+	validates_format_of :first_name, :last_name, with: (/^[\w\s]*$/), allow_blank: true, message: "Name can only contain spaces and letters" 
 	validates_length_of :first_name, :last_name, maximum: 32
 	validates :role, inclusion: { in: ROLES.values }
-
 	#Add necessary tokens 
-	before_validation :add_activation_token, on: :create #Assigns default role ROLES[:pending]
-	before_create :add_remember_token
+	before_validation :add_activation_token, on: :create  #Also Assigns default role ROLES[:pending]
+	before_validation :add_remember_token, on: :create
 	before_save :sanitize_fields
 	def confirmed?
 		self.confirmed
@@ -47,7 +48,7 @@ class User < ActiveRecord::Base
 
 	private
 	def sanitize_fields
-		fields_to_sanitize = %w( :bio :occupation :location )
+		fields_to_sanitize = %w( :bio :occupati-on :location )
 		fields_to_sanitize.each do |field|
 			field = sanitize(field) if field
 		end

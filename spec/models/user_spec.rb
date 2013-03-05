@@ -69,9 +69,17 @@ describe User do
 		should_not allow_value('a'*45).for(:first_name)
 		should_not allow_value('a'*45).for(:last_name)
 	end
-	it 'has a valid role' do 
-		should allow_value(User::ROLES[:pending]).for(:role)
-		binding.pry
-		should ensure_inclusion_of(:role).in_array(User::ROLES.values).for(User.new)
+	
+	it 'has a valid role' do
+		should validate_presence_of(:role)
+		User::ROLES.values.each do |valid_role_type| 
+			should allow_value(valid_role_type).for(:role)
+		end
+	end
+
+	it 'should have a remember token' do 
+		# binding.pry
+		should validate_presence_of(:remember_token) 
+		should validate_uniqueness_of(:remember_token)
 	end
 end
