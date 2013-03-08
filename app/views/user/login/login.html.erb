@@ -3,7 +3,7 @@
 	<div id='login_form'>
 		<%=form_tag :user_login, method: :post, class: "form-signin" do %>
 		<h2 class="form-signin-heading">Please sign in</h2>
-		<%= text_field_tag 'user[username]', nil, class: "input-block-level", placeholder: "Email address" %>
+		<%= text_field_tag 'user[username]', nil, class: "input-block-level", placeholder: "Email address Or Username" %>
 		<%= password_field_tag 'user[password]', nil, class: "input-block-level", placeholder: "Password" %><br />
 		<label class="checkbox">
 			<input type="checkbox" name='remember_me' value="remember-me"> Remember me
