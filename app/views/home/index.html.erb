@@ -1,6 +1,6 @@
 <div id="search-page">
   <div id="search-panel">
-    <%= form_tag({action: "search"}) do %>
+    <%= form_tag({action: "search"}, method: 'get') do %>
     <div class='input-append'>
         <%= text_field_tag :search_field, params[:search_field], id: 'search_field', placeholder:'Enter Search Phrase',  class: 'input-xlarge' %>
         <button id="search_button" type="submit" class="btn btn-info">Search</button>
