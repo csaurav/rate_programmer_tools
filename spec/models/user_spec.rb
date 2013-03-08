@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'shoulda-matchers'	
 require 'faker'
-require 'pry'
+require 'factory_girl_helper'
 require 'shoulda'
-
+require "pry"
 
 
 describe User do
@@ -71,15 +71,19 @@ describe User do
 	end
 	
 	it 'has a valid role' do
-		should validate_presence_of(:role)
+
+		#Test for presence
+		user = FactoryGirl.build(:user)
+		user.update_attribute :role, nil #FORCE set the role to nil
+		user.should have(2).error_on(:role) #Not included in list & can't be blank
+
 		User::ROLES.values.each do |valid_role_type| 
 			should allow_value(valid_role_type).for(:role)
 		end
+
 	end
 
 	it 'should have a remember token' do 
-		# binding.pry
-		should validate_presence_of(:remember_token) 
-		should validate_uniqueness_of(:remember_token)
+
 	end
 end
