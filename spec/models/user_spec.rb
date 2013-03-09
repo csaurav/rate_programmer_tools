@@ -80,4 +80,9 @@ describe User do
 	it 'should have a remember token' do 
 		nil_check_for(:user, :remember_token){  |user| user.should have(1).error_on(:remember_token) }
 	end
+	it 'should automatically have activation token and remember_token added on create' do
+		user = FactoryGirl.create :user
+		user.remember_token.should_not be_nil
+		user.activation_token.should_not be_nil
+	end
 end
