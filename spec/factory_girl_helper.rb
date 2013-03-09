@@ -1,5 +1,5 @@
 require 'factory_girl'
-
+require 'pry'
 FactoryGirl.define do
 	factory :user do
 		email 'some_valid_email@email.com'
@@ -18,8 +18,8 @@ end
 
 
 #The model passed must have a FactoryGirl factory defined 
-def nil_check_for model, attr
-		user = FactoryGirl.build(:user)
-		user.update_attribute :role, nil #FORCE set the role to nil
+def nil_check_for factory_name, attr
+		user = FactoryGirl.build(factory_name) 
+		user.update_attribute attr, nil #FORCE set the role to nil
 		yield user
 end

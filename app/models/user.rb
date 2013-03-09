@@ -2,7 +2,6 @@
 # Upon adding ANY fields, if the field needs to be sanitized, 
 # then in the sanitize_fields function, simply add the name of your field.
 class User < ActiveRecord::Base
- 	include ActionView::Helpers::SanitizeHelper
 	has_secure_password
 	ROLES  = { member: 'Member', pending: 'Pending',  moderator: 'Moderator', admin: 'Admin' }
 	
@@ -56,6 +55,7 @@ class User < ActiveRecord::Base
 	end
 
 	private
+ 	include ActionView::Helpers::SanitizeHelper
 	def sanitize_fields
 		fields_to_sanitize = %w( :bio :occupati-on :location )
 		fields_to_sanitize.each do |field|

@@ -1,17 +1,47 @@
 require 'spec_helper'
+require 'pry'
+
+def fill_signup_form options = {}
+	fill_in 'user_email', with: options[:email] || 'valid.email@gmail.com'
+	fill_in 'user_username', with: options[:username] || 'test_username'
+	fill_in 'user_first_name', with: options[:first_name] || 'Harry'
+	fill_in 'user_last_name', with: options[:last_name] || 'Potter'
+	fill_in 'user_password', with: options[:password] || 'a_password'
+	fill_in 'user_password_confirmation', with: options[:password_confirmation] || 'a_password'
+end
+
+def have_error message
+	have_xpath("//input[@data-content=\"#{message}\"]")
+end
+
 feature 'A user should be able to sign up' do 
 
-	scenario 'when a user clicks sign up on the home page' do 
+	scenario 'the user should be presented with a valid sign up form when he/she clicks sign up' do
 		visit '/'
 		click_link 'Sign Up'
-		fill_in 'user_email', with: 'valid.email@gmail.com'
-		fill_in 'user_username', with: 'test_username'
-		fill_in 'user_first_name', with: 'Harry'
-		fill_in 'user_last_name', with: 'Potter'
-		['user_password','user_password_confirmation'].each do |field|
-			fill_in field, with: 'a_password'
-		end
+		page.should have_content "Registration"
+		page.has_xpath? '//input', count: 8
+	end
+
+	scenario 'when a user fills out a valid form' do 
+		visit '/user/signup'
+		fill_signup_form
 		click_button 'Register'
-		page.should have_content "Registeration was successful"
+		page.should have_content "Registration was successful"
+	end
+	scenario 'when a user fills out an invalid form but then fixes it' do
+		visit '/user/signup'
+		fill_signup_form email: 'fail', password: 'fail', password_confirmation: 'fail'
+		click_button 'Register'
+		page.should have_error "Email is invalid"
+		page.should have_error "Password is too short (minimum is 6 characters)"
+		click_button 'Register'
+	end
+	scenario 'when a user fills out an empty form' do 
+		visit '/user/signup'
+		click_button 'Register'
+		page.should have_error "Email can't be blank<br>Email is invalid"
+		page.should have_error "Username can't be blank<br>Username is too short (minimum is 5 characters)"
+
 	end
 end

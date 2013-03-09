@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   def create
   	@user = User.new params[:user]
   	if @user.save
-  		flash[:success] = 'Registeration was successful'
+  		flash[:success] = 'Registration was successful'
   		redirect_to controller: 'home', action: 'index'
   	else
   		render :new
