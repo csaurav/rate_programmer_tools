@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   #GET resend_activation/:username
   def resend_activation
-  	unless current_user.confirmed && current_user.activation_token.nil? 
+  	if !current_user.confirmed && !current_user.activation_token.nil? 
   		UserMailer.activation_email(current_user).deliver
   		flash[:notice] = "The activation email was resent to #{current_user.email} <br/>
   		Be sure to check your spam or trash folder."

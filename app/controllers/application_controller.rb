@@ -18,13 +18,13 @@ class ApplicationController < ActionController::Base
 
   def must_be_logged_in
     #Add redirect where they came from functionality in future
-    unless current_user
+    if !current_user
       flash[:error] = "You must be logged in to do that!"
       redirect_to user_login_path 
     end
   end
  def must_not_be_logged_in
-   unless current_user.nil?
+   if !current_user.nil?
      flash[:error] = "You can't do that while you're logged in. Please logout"
      redirect_to root_path  
    end
