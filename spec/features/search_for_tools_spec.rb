@@ -5,7 +5,7 @@ feature "From the home page, a user should be able to search for tools." do
   scenario"If a user enters a search term and the tool does not exist, the
   user should see a message saying so." do
 
-    visit '/'
+    visit root_path
     fill_in "search_field", with: "NHibernate"
     click_on "Search"
     page.should have_content("No tool was found matching that name")
@@ -15,7 +15,7 @@ feature "From the home page, a user should be able to search for tools." do
   tool in the search results"do
 
    Tool.create!(name: "NHibernate")
-    visit '/'
+    visit root_path
     fill_in "search_field", with: "NHibernate"
     click_on "Search"
     page.should have_content("NHibernate")
@@ -28,7 +28,7 @@ feature "From the home page, a user should be able to search for tools." do
       Tool.create(name:"theTool#{x}")
     end
 
-    visit '/'
+    visit root_path
     fill_in "search_field", with: "theTool"
     click_on "Search"
     page.should have_selector(".tool_search_result", count: 15)

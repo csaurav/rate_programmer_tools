@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'pry'
+require 'factory_girl_helper'
 
 def fill_signup_form options = {}
 	fill_in 'user_email', with: options[:email] || 'valid.email@gmail.com'
@@ -18,30 +18,30 @@ feature 'User Sign-Up' do
 	context 'when a user is logged in' do
 		scenario 'when a user attempts to sign up' do 
 			user = FactoryGirl.create(:user)
-			visit '/user/login'
+			visit user_login_path
 			fill_in 'user_username', with: user.username
 			fill_in 'user_password', with: user.password
 			click_button 'Sign in'
-			visit '/user/signup'
+			visit signup_user_path
 			page.should have_content "You can't do that while you're logged in. Please logout"
 		end
 	end
 	context 'when the user is not logged in' do
 		scenario 'the user should be presented with a valid sign up form when he/she clicks sign up' do
-			visit '/'
+			visit root_path
 			click_link 'Sign Up'
 			page.should have_content "Registration"
 			page.has_xpath? '//input', count: 8
 		end
 
 		scenario 'when a user fills out a valid form' do 
-			visit '/user/signup'
+			visit signup_user_path
 			fill_signup_form
 			click_button 'Register'
 			page.should have_content "Registration was successful"
 		end
 		scenario 'when a user fills out an invalid form but then fixes it' do
-			visit '/user/signup'
+			visit signup_user_path
 			fill_signup_form email: 'fail', password: 'fail', password_confirmation: 'fail'
 			click_button 'Register'
 			page.should have_error "Email is invalid"
@@ -49,7 +49,7 @@ feature 'User Sign-Up' do
 			click_button 'Register'
 		end
 		scenario 'when a user fills out an empty form' do 
-			visit '/user/signup'
+			visit signup_user_path
 			click_button 'Register'
 			page.should have_error "Email can't be blank<br>Email is invalid"
 			page.should have_error "Username can't be blank<br>Username is too short (minimum is 5 characters)"
