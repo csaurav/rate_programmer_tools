@@ -49,13 +49,19 @@ class User < ActiveRecord::Base
 		username if username.present?
 	end
 
+
+	def send_reset_password_email
+		add_reset_token
+		UserMailer.reset_email(self).deliver 	
+	end
+
+	private
+ 	include ActionView::Helpers::SanitizeHelper
 	def add_reset_token
 		generate_token(:reset_token)
 		update_attributes reset_token_expiration: 3.hours.from_now
 	end
 
-	private
- 	include ActionView::Helpers::SanitizeHelper
 	def sanitize_fields
 		fields_to_sanitize = %w( :bio :occupati-on :location )
 		fields_to_sanitize.each do |field|

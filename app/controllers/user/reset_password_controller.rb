@@ -7,14 +7,13 @@ class User::ResetPasswordController < ApplicationController
 
 	#POST /forgot_password
 	def create
-		@user = User.find_by_username(params[:identifier]) || User.find_by_username(params[:identifier])
-		if @user
-			@user.add_reset_token 
+		if @user = User.find_by_username(params[:identifier]) || User.find_by_username(params[:identifier])
+			@user.send_reset_password_email
 			flash[:info] = "An email with reset instructions was sent for that user"
 			redirect_to root_path
 		else
-			flash[:error] = "No such user found!"
-			redirect_to :new
+			flash.now[:error] = "No such user found!"
+			render :new 
 		end
 	end
 
