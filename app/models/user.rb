@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
 
 	private
  	include ActionView::Helpers::SanitizeHelper
+
 	def add_reset_token
 		generate_token(:reset_token)
 		update_attributes reset_token_expiration: 3.hours.from_now
@@ -68,6 +69,7 @@ class User < ActiveRecord::Base
 			field = sanitize(field) if field
 		end
 	end
+
 	def add_activation_token 
 		self.assign_attributes role: ROLES[:pending], activation_token: SecureRandom.hex(20) 
 		UserMailer.activation_email(self).deliver
@@ -83,6 +85,6 @@ class User < ActiveRecord::Base
 	def generate_token(column)
 		begin
 			self[column] = SecureRandom.urlsafe_base64
-		end while User.exists?(column => self[column])
+		end while self.class.exists?(column => self[column])
 	end
 end
