@@ -85,4 +85,15 @@ describe User do
 		user.remember_token.should_not be_nil
 		user.activation_token.should_not be_nil
 	end
+
+	it 'should authenticate a user with valid username/email and password' do
+		user = FactoryGirl.create :user
+
+		authenticated_user = User.authenticate user.email,user.password
+
+		authenticated_user.should_not be_nil
+
+		authenticated_user = User.authenticate user.username,user.password
+		authenticated_user.should_not be_nil
+	end
 end

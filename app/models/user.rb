@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.authenticate(username_or_email,password)
-		user = User.find_by_username(username_or_email) || User.find_by_email(username_or_email)
+		user = find_by_username(username_or_email) || find_by_email(username_or_email)
 		return user if user && user.try(:authenticate,password)
 		return nil
 	end

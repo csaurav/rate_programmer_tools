@@ -68,9 +68,9 @@ class UsersController < ApplicationController
   	if current_user && params[:user][:current_password] && 
   		User.authenticate(current_user.username, params[:user][:current_password])
   		[:email,:first_name,:last_name,:password,:password_confirmation,:location,:occupation,:bio].each do |field|
-  			current_user.assign_attributes field => params[:user][field] if !params[:user][field].empty?
+  			current_user.assign_attributes field => params[:user][field] unless params[:user][field].empty?
   		end
-  		if !current_user.save
+  		unless current_user.save
   			flash.now[:error] = "Oops. Looks like there were some errors"
   		else
   			flash.now[:success] = "Changes made successfully" 
